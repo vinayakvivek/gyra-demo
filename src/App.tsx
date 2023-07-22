@@ -1,10 +1,12 @@
-import "./App.css";
-import { Button } from "./components/ui/button";
+import CollectionList from "./components/CollectionList";
 
 function App() {
   return (
-    <div className="flex flex-col items-center justify-center">
-      <Button>Test</Button>
+    <div className="flex flex-row items-center justify-center bg-background h-screen">
+      <div className="h-full basis-1/3 p-12">
+        <CollectionList />
+      </div>
+      <div className="h-full basis-2/3 bg-green-200"></div>
     </div>
   );
 }
