@@ -3,10 +3,13 @@ import ChatBox from "./components/ChatBox";
 import CollectionList from "./components/CollectionList";
 import Navbar from "./components/Navbar";
 import { ThemeProvider } from "./components/ThemeProvider";
+import H2 from "./components/common/H2";
+import { useChatStore } from "./stores/chat-store";
 
 const queryClient = new QueryClient();
 
 const App = () => {
+  const { conversationId } = useChatStore();
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="system">
@@ -15,7 +18,12 @@ const App = () => {
           <main className="flex items-stretch grow bg-background py-8 px-16 overflow-y-auto">
             <div className="flex flex-row w-full overflow-y-auto space-x-16">
               <CollectionList className="basis-1/3 pb-2" />
-              <ChatBox className="basis-2/3 py-10" />
+              {conversationId && (
+                <div className="basis-2/3 flex flex-col">
+                  <H2>Chat</H2>
+                  <ChatBox className="grow py-3 overflow-y-auto" />
+                </div>
+              )}
             </div>
           </main>
 

@@ -7,6 +7,7 @@ import * as api from "../api";
 import { Collection } from "@/types";
 import LoadingCircle from "./common/LoadingCircle";
 import { useChatStore } from "../stores/chat-store";
+import H2 from "./common/H2";
 
 const ListItem = (item: Collection) => {
   const { setCollection, setConversation, collection } = useChatStore();
@@ -53,9 +54,7 @@ const CollectionList = forwardRef<
 
   return (
     <div ref={ref} className={cn("h-full flex flex-col", className)} {...props}>
-      <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
-        Collections
-      </h2>
+      <H2>Collections</H2>
       <div className="h-3" />
       {isLoading && <p>Loading...</p>}
       {!!error && <p>Error fetching collections: {`${error}`}</p>}
