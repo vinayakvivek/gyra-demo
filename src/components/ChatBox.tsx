@@ -1,20 +1,13 @@
 import { forwardRef, useEffect, useRef } from "react";
 import { cn } from "../lib/utils";
 import { Card } from "./ui/card";
-import { faker } from "@faker-js/faker";
 import { ScrollArea } from "./ui/scroll-area";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import ReactMarkdown from "react-markdown";
 import clsx from "clsx";
-
-export type UserType = "AI" | "HUMAN";
-
-export interface ChatMessage {
-  id: number;
-  type: UserType;
-  message: string;
-}
+import { ChatMessage } from "../types";
+import { useChatStore } from "../stores/chat-store";
 
 const ChatBoxMessage = ({ type, message }: ChatMessage) => {
   const isHuman = type === "HUMAN";
@@ -46,23 +39,19 @@ const ChatBox = forwardRef<
 >(({ className, ...props }, ref) => {
   const bottomRef = useRef<HTMLDivElement>(null);
 
-  const chatHistory: ChatMessage[] = [...Array(30)].map((_, index: number) => ({
-    id: index,
-    message: faker.lorem.lines(),
-    type: index % 2 == 0 ? "AI" : "HUMAN",
-  }));
+  const { history } = useChatStore();
 
   useEffect(() => {
     // 👇️ scroll to bottom every time messages change
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [chatHistory]);
+  }, [history]);
 
   return (
     <div ref={ref} className={cn("", className)} {...props}>
       <Card className="h-full flex flex-col p-5 space-y-2">
         <ScrollArea type="scroll" className="grow">
           <div className="flex flex-col space-y-2 w-full">
-            {chatHistory.map((item) => (
+            {history.map((item) => (
               <ChatBoxMessage key={item.id} {...item} />
             ))}
             <div ref={bottomRef} />
