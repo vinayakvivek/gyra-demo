@@ -9,7 +9,7 @@ const App = () => {
         </h1>
       </nav>
 
-      <main className="flex items-stretch grow bg-background p-4 h-1 overflow-y-auto">
+      <main className="flex items-stretch grow bg-background p-4 overflow-y-auto">
         <div className="flex flex-row w-full overflow-y-auto">
           <CollectionList className="basis-1/3 pb-2" />
         </div>
