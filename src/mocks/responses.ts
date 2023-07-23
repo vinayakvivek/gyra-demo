@@ -1,4 +1,5 @@
-import { Collection } from "../types";
+import { faker } from "@faker-js/faker";
+import { Collection, Conversation, ConversationCreate } from "../types";
 import collections from "./data/collections.json";
 
 const timer = (ms: number) => {
@@ -12,4 +13,16 @@ const waitRandom = async () => {
 export const getCollections = async (): Promise<Collection[]> => {
   await waitRandom();
   return collections;
+};
+
+export const createConversation = async (
+  data: ConversationCreate
+): Promise<Conversation> => {
+  await waitRandom();
+  return {
+    conversation_id: faker.number.int(100),
+    conversation_name: data.conversation_name,
+    status: "active",
+    created_time: faker.date.anytime().toISOString(),
+  };
 };
