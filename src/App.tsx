@@ -1,3 +1,4 @@
+import ChatBox from "./components/ChatBox";
 import CollectionList from "./components/CollectionList";
 
 const App = () => {
@@ -10,8 +11,9 @@ const App = () => {
       </nav>
 
       <main className="flex items-stretch grow bg-background p-4 overflow-y-auto">
-        <div className="flex flex-row w-full overflow-y-auto">
+        <div className="flex flex-row w-full overflow-y-auto space-x-10">
           <CollectionList className="basis-1/3 pb-2" />
+          <ChatBox className="basis-2/3" />
         </div>
       </main>
 
