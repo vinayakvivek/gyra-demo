@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useRef } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import { cn } from "../lib/utils";
 import { Card } from "./ui/card";
 import { ScrollArea } from "./ui/scroll-area";
@@ -8,6 +8,7 @@ import ReactMarkdown from "react-markdown";
 import clsx from "clsx";
 import { ChatMessage } from "../types";
 import { useChatStore } from "../stores/chat-store";
+import { faker } from "@faker-js/faker";
 
 const ChatBoxMessage = ({ type, message }: ChatMessage) => {
   const isHuman = type === "HUMAN";
@@ -38,8 +39,29 @@ const ChatBox = forwardRef<
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => {
   const bottomRef = useRef<HTMLDivElement>(null);
+  const [query, setQuery] = useState("");
 
-  const { history } = useChatStore();
+  const { history, addMessage } = useChatStore();
+
+  const addHumanMessage = (message: string) => {
+    addMessage(message, "HUMAN");
+  };
+
+  const addAIMessage = (message: string) => {
+    addMessage(message, "AI");
+  };
+
+  const sendQuery = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    if (!query) {
+      return;
+    }
+    addHumanMessage(query);
+    setQuery("");
+    setTimeout(() => {
+      addAIMessage(faker.lorem.lines(2));
+    }, 2000);
+  };
 
   useEffect(() => {
     // 👇️ scroll to bottom every time messages change
@@ -62,8 +84,13 @@ const ChatBox = forwardRef<
             AI is typing...
           </span>
         </div>
-        <form className="flex flex-row space-x-3 w-full">
-          <Input type="text" placeholder="Type in your query" />
+        <form className="flex flex-row space-x-3 w-full" onSubmit={sendQuery}>
+          <Input
+            type="text"
+            placeholder="Type in your query"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
           <Button>Send</Button>
         </form>
       </Card>
