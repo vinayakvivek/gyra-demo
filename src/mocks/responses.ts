@@ -6,8 +6,8 @@ const timer = (ms: number) => {
   return new Promise((res) => setTimeout(res, ms));
 };
 
-const waitRandom = async () => {
-  await timer(500 + Math.random() * 1000);
+const waitRandom = async (min = 500) => {
+  await timer(min + Math.random() * 1000);
 };
 
 export const getCollections = async (): Promise<Collection[]> => {
@@ -28,6 +28,6 @@ export const createConversation = async (
 };
 
 export const chat = async () => {
-  await waitRandom();
+  await waitRandom(5000);
   return faker.lorem.lines(5);
 };

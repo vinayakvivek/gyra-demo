@@ -43,6 +43,8 @@ const ChatBox = forwardRef<
   const [query, setQuery] = useState("");
   const { history, addMessage, conversationId } = useChatStore();
 
+  const [dots, setDots] = useState("");
+
   const chatMutation = useMutation({
     mutationFn: () => {
       if (!conversationId) {
@@ -71,7 +73,14 @@ const ChatBox = forwardRef<
 
     addHumanMessage(query);
     setQuery("");
-    chatMutation.mutate();
+    const interval = setInterval(() => {
+      setDots((prevDots) => (prevDots.length < 4 ? prevDots + "." : "."));
+    }, 500);
+    chatMutation.mutate(undefined, {
+      onSettled: () => {
+        clearInterval(interval);
+      },
+    });
   };
 
   useEffect(() => {
@@ -87,14 +96,14 @@ const ChatBox = forwardRef<
             {history.map((item) => (
               <ChatBoxMessage key={item.id} {...item} />
             ))}
+            {chatMutation.isLoading && (
+              <div className="rounded-xl px-3 py-1 bg-accent w-fit text-sm italic">
+                AI is typing {dots}
+              </div>
+            )}
             <div ref={bottomRef} />
           </div>
         </ScrollArea>
-        <div className="w-full">
-          <span className="text-sm text-muted-foreground italic">
-            {chatMutation.isLoading ? "AI is typing..." : ""}
-          </span>
-        </div>
         <form className="flex flex-row space-x-3 w-full" onSubmit={sendQuery}>
           <Input
             type="text"
