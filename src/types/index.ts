@@ -24,3 +24,12 @@ export interface Conversation {
   status: string;
   created_time: string;
 }
+
+export interface ChatRequest {
+  query: string;
+}
+
+export interface ChatResponse {
+  query: string;
+  output: string;
+}

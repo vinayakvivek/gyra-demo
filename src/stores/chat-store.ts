@@ -9,6 +9,11 @@ const chatHistory: ChatMessage[] = [...Array(30)].map((_, index: number) => ({
 }));
 
 interface ChatState {
+  collection: string | null;
+  conversationId: number | null;
+  setCollection: (collection: string) => void;
+  setConversation: (id: number) => void;
+
   history: ChatMessage[];
   resetHistory: () => void;
   setHistory: (history: ChatMessage[]) => void;
@@ -16,6 +21,14 @@ interface ChatState {
 }
 
 export const useChatStore = create<ChatState>((set, get) => ({
+  collection: null,
+  conversationId: null,
+  setCollection: (collection) => set({ collection }),
+  setConversation: (id) => {
+    get().resetHistory();
+    set({ conversationId: id });
+  },
+
   history: chatHistory,
   resetHistory: () => set({ history: [] }),
   setHistory: (history) => set({ history }),

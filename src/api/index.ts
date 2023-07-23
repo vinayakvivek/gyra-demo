@@ -1,7 +1,13 @@
 import axios from "axios";
 import { API_ENDPOINT, MOCKING_ENABLED } from "../config";
 import * as mockResponses from "../mocks/responses";
-import { Collection, Conversation, ConversationCreate } from "../types";
+import {
+  ChatRequest,
+  ChatResponse,
+  Collection,
+  Conversation,
+  ConversationCreate,
+} from "../types";
 
 const createUrl = (path: string) => `${API_ENDPOINT}/${path}`;
 
@@ -28,4 +34,17 @@ export const createConversation = (
     return mockResponses.createConversation(data);
   }
   return post<ConversationCreate, Conversation>("/conversation", data);
+};
+
+export const chat = async (
+  conversationId: number,
+  query: string
+): Promise<ChatResponse> => {
+  if (MOCKING_ENABLED) {
+    return { query, output: await mockResponses.chat() };
+  }
+  return post<ChatRequest, ChatResponse>(
+    `/conversation/${conversationId}/query`,
+    { query }
+  );
 };

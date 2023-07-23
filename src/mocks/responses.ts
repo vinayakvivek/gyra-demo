@@ -26,3 +26,8 @@ export const createConversation = async (
     created_time: faker.date.anytime().toISOString(),
   };
 };
+
+export const chat = async () => {
+  await waitRandom();
+  return faker.lorem.lines(5);
+};
