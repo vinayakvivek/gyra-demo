@@ -1,3 +1,4 @@
+import ChatBox from "./components/ChatBox";
 import CollectionList from "./components/CollectionList";
 
 function App() {
@@ -6,7 +7,11 @@ function App() {
       <div className="h-full basis-1/3 p-12">
         <CollectionList />
       </div>
-      <div className="h-full basis-2/3 bg-green-200"></div>
+      <div className="h-full basis-2/3 bg-green-200">
+        <div className="p-12 h-full">
+          <ChatBox />
+        </div>
+      </div>
     </div>
   );
 }
