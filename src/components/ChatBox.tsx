@@ -8,7 +8,8 @@ import ReactMarkdown from "react-markdown";
 import clsx from "clsx";
 import { ChatMessage } from "../types";
 import { useChatStore } from "../stores/chat-store";
-import { faker } from "@faker-js/faker";
+import { useMutation } from "react-query";
+import * as api from "../api";
 
 const ChatBoxMessage = ({ type, message }: ChatMessage) => {
   const isHuman = type === "HUMAN";
@@ -40,8 +41,19 @@ const ChatBox = forwardRef<
 >(({ className, ...props }, ref) => {
   const bottomRef = useRef<HTMLDivElement>(null);
   const [query, setQuery] = useState("");
+  const { history, addMessage, conversationId } = useChatStore();
 
-  const { history, addMessage } = useChatStore();
+  const chatMutation = useMutation({
+    mutationFn: () => {
+      if (!conversationId) {
+        throw new Error("Conversation Id is null");
+      }
+      return api.chat(conversationId, query);
+    },
+    onSuccess: ({ output }) => {
+      addAIMessage(output);
+    },
+  });
 
   const addHumanMessage = (message: string) => {
     addMessage(message, "HUMAN");
@@ -53,14 +65,13 @@ const ChatBox = forwardRef<
 
   const sendQuery = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    if (!query) {
-      return;
-    }
+    if (chatMutation.isLoading) return;
+    if (!conversationId) return;
+    if (!query) return;
+
     addHumanMessage(query);
     setQuery("");
-    setTimeout(() => {
-      addAIMessage(faker.lorem.lines(2));
-    }, 2000);
+    chatMutation.mutate();
   };
 
   useEffect(() => {
@@ -81,7 +92,7 @@ const ChatBox = forwardRef<
         </ScrollArea>
         <div className="w-full">
           <span className="text-sm text-muted-foreground italic">
-            AI is typing...
+            {chatMutation.isLoading ? "AI is typing..." : ""}
           </span>
         </div>
         <form className="flex flex-row space-x-3 w-full" onSubmit={sendQuery}>
@@ -91,7 +102,7 @@ const ChatBox = forwardRef<
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
-          <Button>Send</Button>
+          <Button disabled={chatMutation.isLoading}>Send</Button>
         </form>
       </Card>
     </div>
