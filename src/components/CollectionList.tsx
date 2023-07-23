@@ -1,6 +1,8 @@
 import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { faker } from "@faker-js/faker";
 import { ScrollArea } from "./ui/scroll-area";
+import { forwardRef } from "react";
+import { cn } from "../lib/utils";
 
 const getCollections = () => {
   const collections = [];
@@ -14,9 +16,12 @@ const getCollections = () => {
   return collections;
 };
 
-const CollectionList = () => {
+const CollectionList = forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => {
   return (
-    <div className="h-full flex flex-col">
+    <div ref={ref} className={cn("h-full flex flex-col", className)} {...props}>
       <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
         Collections
       </h2>
@@ -38,6 +43,6 @@ const CollectionList = () => {
       </ScrollArea>
     </div>
   );
-};
+});
 
 export default CollectionList;
