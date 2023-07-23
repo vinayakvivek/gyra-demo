@@ -1,0 +1,62 @@
+[
+  {
+    "collection_name": "test_1.1",
+    "asset_type": "text",
+    "embedder_id": "openai-embedder",
+    "created_time": "2023-07-01T16:35:34.468424"
+  },
+  {
+    "collection_name": "test_gyra_1.1",
+    "asset_type": "text",
+    "embedder_id": "openai-embedder",
+    "created_time": "2023-07-01T16:46:50.622367"
+  },
+  {
+    "collection_name": "test_gyra_1",
+    "asset_type": "text",
+    "embedder_id": "openai-embedder",
+    "created_time": "2023-07-01T16:47:00.324581"
+  },
+  {
+    "collection_name": "test_1_1",
+    "asset_type": "text",
+    "embedder_id": "openai-embedder",
+    "created_time": "2023-07-03T17:37:47.288242"
+  },
+  {
+    "collection_name": "test_gyra_2",
+    "asset_type": "text",
+    "embedder_id": "openai-embedder",
+    "created_time": "2023-07-05T10:49:15.096068"
+  },
+  {
+    "collection_name": "test_gyra_1_2",
+    "asset_type": "text",
+    "embedder_id": "openai-embedder",
+    "created_time": "2023-07-05T11:41:34.443376"
+  },
+  {
+    "collection_name": "vin_test",
+    "asset_type": "text",
+    "embedder_id": "openai-embedder",
+    "created_time": "2023-07-05T15:00:31.016550"
+  },
+  {
+    "collection_name": "amazon hr",
+    "asset_type": "text",
+    "embedder_id": "openai-embedder",
+    "created_time": "2023-07-05T16:40:48.921855"
+  },
+  {
+    "collection_name": "amazon_hr",
+    "asset_type": "text",
+    "embedder_id": "openai-embedder",
+    "created_time": "2023-07-05T16:43:26.307959"
+  },
+  {
+    "collection_name": "amazon_customer_service",
+    "asset_type": "text",
+    "embedder_id": "openai-embedder",
+    "created_time": "2023-07-05T17:00:22.014433"
+  }
+]

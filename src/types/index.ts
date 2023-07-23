@@ -5,3 +5,10 @@ export interface ChatMessage {
   type: UserType;
   message: string;
 }
+
+export interface Collection {
+  collection_name: string;
+  asset_type: string;
+  embedder_id: string;
+  created_time: string;
+}
