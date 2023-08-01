@@ -1,12 +1,13 @@
 import { ScrollArea } from "./ui/scroll-area";
 import { forwardRef } from "react";
 import { cn } from "../lib/utils";
-import { useMutation, useQuery } from "react-query";
+import { useMutation } from "react-query";
 import * as api from "../api";
 import { Collection } from "@/types";
 import LoadingCircle from "./common/LoadingCircle";
 import { useChatStore } from "../stores/chat-store";
 import H2 from "./common/H2";
+import { useQueryCollections } from "../hooks/query";
 
 const ListItem = (item: Collection) => {
   const { setCollection, setConversation, collection } = useChatStore();
@@ -47,16 +48,13 @@ const CollectionList = forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => {
-  const { isLoading, error, data } = useQuery(
-    "collections",
-    api.getCollections
-  );
+  const { isLoading, error, data } = useQueryCollections();
 
   return (
     <div ref={ref} className={cn("h-full flex flex-col", className)} {...props}>
       <H2>Collections</H2>
       <div className="h-3" />
-      {isLoading && <p>Loading...</p>}
+      {isLoading && <LoadingCircle />}
       {!!error && <p>Error fetching collections: {`${error}`}</p>}
       {data && (
         <ScrollArea type="scroll" className="flex-1 overflow-hidden">
