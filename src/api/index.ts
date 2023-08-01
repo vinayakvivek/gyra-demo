@@ -11,12 +11,20 @@ import {
 
 const createUrl = (path: string) => `${API_ENDPOINT}/${path}`;
 
+const commonHeaders = {
+  "x-tenant-id": 102,
+};
+
 const get = async <T>(path: string): Promise<T> => {
-  return axios.get(createUrl(path)).then((res) => res.data);
+  return axios
+    .get(createUrl(path), { headers: commonHeaders })
+    .then((res) => res.data);
 };
 
 const post = async <T, R>(path: string, data: T): Promise<R> => {
-  return axios.post(createUrl(path), data).then((res) => res.data);
+  return axios
+    .post(createUrl(path), data, { headers: commonHeaders })
+    .then((res) => res.data);
 };
 
 // Get Collections
