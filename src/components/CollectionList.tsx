@@ -1,4 +1,3 @@
-import { Card, CardHeader } from "./ui/card";
 import { ScrollArea } from "./ui/scroll-area";
 import { forwardRef } from "react";
 import { cn } from "../lib/utils";
@@ -29,17 +28,18 @@ const ListItem = (item: Collection) => {
   };
 
   return (
-    <Card
-      className={cn("hover:bg-accent hover:cursor-pointer", {
-        "border-foreground": item.collection_name === collection,
-      })}
+    <div
+      className={cn(
+        "hover:bg-accent hover:cursor-pointer flex flex-row justify-between items-center border rounded-lg px-3 py-2",
+        {
+          "border-foreground": item.collection_name === collection,
+        }
+      )}
       onClick={handleClick}
     >
-      <CardHeader className="flex flex-row justify-between">
-        <span className="text-xl font-bold">{item.collection_name}</span>
-        {createConvoQuery.isLoading && <LoadingCircle />}
-      </CardHeader>
-    </Card>
+      <span className="text-lg">{item.collection_name}</span>
+      {createConvoQuery.isLoading && <LoadingCircle />}
+    </div>
   );
 };
 
