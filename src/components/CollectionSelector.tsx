@@ -1,4 +1,4 @@
-import { forwardRef, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import { cn } from "../lib/utils";
 import { Button } from "../components/ui/button";
 import {
@@ -18,11 +18,13 @@ import { QUERY_KEY_COLLECTIONS } from "../hooks/query";
 import * as api from "../api";
 import { useQuery } from "react-query";
 import H3 from "./common/H3";
+import { useAdminStore } from "../stores/admin-store";
 
 const CollectionSelector = forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => {
+  const { setCollection } = useAdminStore();
   const [items, setItems] = useState<string[]>([]);
   useQuery(QUERY_KEY_COLLECTIONS, api.getCollections, {
     onSuccess: (data) => {
@@ -31,6 +33,12 @@ const CollectionSelector = forwardRef<
   });
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
+
+  useEffect(() => {
+    if (value) {
+      setCollection(value);
+    }
+  }, [value, setCollection]);
 
   return (
     <div ref={ref} className={cn("", className)} {...props}>
@@ -43,9 +51,7 @@ const CollectionSelector = forwardRef<
             aria-expanded={open}
             className="w-96 justify-between"
           >
-            {value
-              ? items.find((item) => item === value)
-              : "Select collection..."}
+            {value ? value : "Select collection..."}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
