@@ -6,6 +6,7 @@ import { useAdminStore } from "../stores/admin-store";
 import { useQuery } from "react-query";
 import * as api from "../api";
 import { AssetListItem } from "@/types/assets";
+import CreateAssetDialog from "../components/admin/CreateAssetDialog";
 
 const AssetItem = ({ asset }: { asset: AssetListItem }) => {
   return (
@@ -37,7 +38,10 @@ const AssetList = () => {
   );
   return collection ? (
     <div className="w-[600px]">
-      <h4 className="text-xl mb-2">Assets</h4>
+      <div className="flex flex-row justify-between items-center mb-2">
+        <h4 className="text-xl">Assets</h4>
+        <CreateAssetDialog />
+      </div>
       {isLoading ? (
         <LoadingCircle />
       ) : (

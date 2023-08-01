@@ -8,7 +8,7 @@ import {
   Conversation,
   ConversationCreate,
 } from "../types";
-import { AssetListItem } from "@/types/assets";
+import { AssetBase, AssetListItem } from "@/types/assets";
 
 const createUrl = (path: string) => `${API_ENDPOINT}/${path}`;
 
@@ -42,6 +42,16 @@ export const getAssets = (collection: string): Promise<AssetListItem[]> => {
     return mockResponses.getAssets();
   }
   return get<AssetListItem[]>(`/collection/${collection}/asset`);
+};
+
+export const createAsset = (
+  collection: string,
+  asset: AssetBase
+): Promise<AssetBase> => {
+  if (MOCKING_ENABLED) {
+    return mockResponses.createAsset(asset);
+  }
+  return post<AssetBase, AssetBase>(`/collection/${collection}/asset`, asset);
 };
 
 export const createConversation = (
