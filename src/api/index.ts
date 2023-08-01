@@ -8,6 +8,7 @@ import {
   Conversation,
   ConversationCreate,
 } from "../types";
+import { AssetListItem } from "@/types/assets";
 
 const createUrl = (path: string) => `${API_ENDPOINT}/${path}`;
 
@@ -33,6 +34,14 @@ export const getCollections = (): Promise<Collection[]> => {
     return mockResponses.getCollections();
   }
   return get<Collection[]>("/collection");
+};
+
+// Get Assets
+export const getAssets = (collection: string): Promise<AssetListItem[]> => {
+  if (MOCKING_ENABLED) {
+    return mockResponses.getAssets();
+  }
+  return get<AssetListItem[]>(`/collection/${collection}/asset`);
 };
 
 export const createConversation = (

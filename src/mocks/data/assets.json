@@ -1,0 +1,14 @@
+[
+  {
+    "asset_id": "1",
+    "input_format": "url",
+    "data": "https://example.com",
+    "metadata": {}
+  },
+  {
+    "asset_id": "2",
+    "input_format": "url",
+    "data": "https://example2.com",
+    "metadata": {}
+  }
+]
