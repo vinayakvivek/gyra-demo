@@ -58,7 +58,7 @@ const CollectionSelector = forwardRef<
         <PopoverContent className="w-96 p-0">
           <Command>
             <CommandInput placeholder="Search collections..." />
-            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandEmpty>No collections found.</CommandEmpty>
             <CommandGroup>
               {items.map((item) => (
                 <CommandItem
