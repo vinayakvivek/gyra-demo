@@ -27,6 +27,10 @@ export const createAsset = async (asset: AssetBase): Promise<AssetBase> => {
   return asset;
 };
 
+export const deleteAsset = async (): Promise<void> => {
+  await waitRandom();
+};
+
 export const createConversation = async (
   data: ConversationCreate
 ): Promise<Conversation> => {

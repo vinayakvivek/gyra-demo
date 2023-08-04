@@ -7,6 +7,7 @@ import { useQuery } from "react-query";
 import * as api from "../api";
 import { AssetListItem } from "@/types/assets";
 import CreateAssetDialog from "../components/admin/CreateAssetDialog";
+import DeleteAssetDialog from "../components/admin/DeleteAssetDialog";
 
 const AssetItem = ({ asset }: { asset: AssetListItem }) => {
   return (
@@ -17,7 +18,9 @@ const AssetItem = ({ asset }: { asset: AssetListItem }) => {
         </p>
         <span>{asset.data}</span>
       </div>
-      <div>Edit</div>
+      <div>
+        <DeleteAssetDialog assetId={asset.asset_id} />
+      </div>
     </div>
   );
 };

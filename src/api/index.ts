@@ -16,6 +16,12 @@ const commonHeaders = {
   "x-tenant-id": 102,
 };
 
+const execute = async <T>(method: string, path: string): Promise<T> => {
+  return axios({ method, url: createUrl(path), headers: commonHeaders }).then(
+    (res) => res.data
+  );
+};
+
 const get = async <T>(path: string): Promise<T> => {
   return axios
     .get(createUrl(path), { headers: commonHeaders })
@@ -52,6 +58,16 @@ export const createAsset = (
     return mockResponses.createAsset(asset);
   }
   return post<AssetBase, AssetBase>(`/collection/${collection}/asset`, asset);
+};
+
+export const deleteAsset = (
+  collection: string,
+  assetId: string
+): Promise<void> => {
+  if (MOCKING_ENABLED) {
+    return mockResponses.deleteAsset();
+  }
+  return execute<void>("DELETE", `/collection/${collection}/asset/${assetId}`);
 };
 
 export const createConversation = (

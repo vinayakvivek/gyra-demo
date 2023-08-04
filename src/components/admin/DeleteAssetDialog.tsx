@@ -7,33 +7,29 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../../components/ui/dialog";
+} from "../ui/dialog";
 import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
 import { useAdminStore } from "../../stores/admin-store";
 import { useMutation } from "react-query";
 import * as api from "../../api";
 import LoadingCircle from "../common/LoadingCircle";
-import { v4 as uuidv4 } from "uuid";
+import { Trash2Icon } from "lucide-react";
 
-const CreateAssetDialog = () => {
+type Props = {
+  assetId: string;
+};
+
+const DeleteAssetDialog = ({ assetId }: Props) => {
   const { collection } = useAdminStore();
-  const [data, setData] = useState("");
   const [open, setOpen] = useState(false);
 
   const { mutate, isLoading } = useMutation(
-    "asset",
+    "asset-delete",
     () => {
       if (!collection) {
         throw new Error(`Collection cannot be null`);
       }
-      return api.createAsset(collection, {
-        asset_id: uuidv4(),
-        input_format: "url",
-        data: data,
-        metadata: {},
-      });
+      return api.deleteAsset(collection, assetId);
     },
     {
       onSuccess: () => {
@@ -45,26 +41,22 @@ const CreateAssetDialog = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Add Asset</Button>
+        <Button variant="ghost">
+          <Trash2Icon />
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add a new asset</DialogTitle>
+          <DialogTitle>Remove Asset?</DialogTitle>
           <DialogDescription></DialogDescription>
-          <div className="flex flex-row items-center space-x-4 py-6">
-            <Label htmlFor="name" className="text-right">
-              URL
-            </Label>
-            <Input
-              id="name"
-              value={data}
-              onChange={(e) => setData(e.target.value)}
-              className="col-span-3"
-            />
-          </div>
           <DialogFooter>
-            <Button type="submit" onClick={() => mutate()} disabled={isLoading}>
-              {isLoading && <LoadingCircle />} Save
+            <Button
+              type="submit"
+              variant="destructive"
+              onClick={() => mutate()}
+              disabled={isLoading}
+            >
+              {isLoading && <LoadingCircle />} Delete
             </Button>
           </DialogFooter>
         </DialogHeader>
@@ -73,4 +65,4 @@ const CreateAssetDialog = () => {
   );
 };
 
-export default CreateAssetDialog;
+export default DeleteAssetDialog;
