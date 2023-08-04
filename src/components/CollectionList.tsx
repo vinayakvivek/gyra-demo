@@ -33,7 +33,8 @@ const ListItem = (item: Collection) => {
       className={cn(
         "hover:bg-accent hover:cursor-pointer flex flex-row justify-between items-center border rounded-lg px-3 py-2",
         {
-          "border-foreground": item.collection_name === collection,
+          "bg-foreground text-background hover:bg-foreground":
+            item.collection_name === collection,
         }
       )}
       onClick={handleClick}
