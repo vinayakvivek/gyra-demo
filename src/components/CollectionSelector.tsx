@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "../lib/utils";
 import { Button } from "../components/ui/button";
 import {
@@ -18,13 +18,12 @@ import { QUERY_KEY_COLLECTIONS } from "../hooks/query";
 import * as api from "../api";
 import { useQuery } from "react-query";
 import H3 from "./common/H3";
-import { useAdminStore } from "../stores/admin-store";
 
-const CollectionSelector = forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => {
-  const { setCollection } = useAdminStore();
+type CollectionSelectorProps = {
+  onSelect: (collection: string) => void;
+};
+
+const CollectionSelector = ({ onSelect }: CollectionSelectorProps) => {
   const [items, setItems] = useState<string[]>([]);
   useQuery(QUERY_KEY_COLLECTIONS, api.getCollections, {
     onSuccess: (data) => {
@@ -36,12 +35,12 @@ const CollectionSelector = forwardRef<
 
   useEffect(() => {
     if (value) {
-      setCollection(value);
+      onSelect(value);
     }
-  }, [value, setCollection]);
+  }, [value, onSelect]);
 
   return (
-    <div ref={ref} className={cn("", className)} {...props}>
+    <div>
       <H3 className="mb-3">Collection</H3>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
@@ -83,6 +82,6 @@ const CollectionSelector = forwardRef<
       </Popover>
     </div>
   );
-});
+};
 
 export default CollectionSelector;

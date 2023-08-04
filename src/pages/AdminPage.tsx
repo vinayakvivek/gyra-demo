@@ -64,6 +64,7 @@ const AssetList = () => {
 
 const AdminPage = () => {
   const { isLoading, data } = useQueryCollections();
+  const { setCollection } = useAdminStore();
 
   return (
     <div className="h-screen flex flex-col">
@@ -72,7 +73,7 @@ const AdminPage = () => {
         {isLoading && <LoadingCircle />}
         {data && (
           <div className="flex flex-col space-y-6">
-            <CollectionSelector />
+            <CollectionSelector onSelect={setCollection} />
             <AssetList />
           </div>
         )}
