@@ -1,6 +1,8 @@
 import { faker } from "@faker-js/faker";
 import { Collection, Conversation, ConversationCreate } from "../types";
 import collections from "./data/collections.json";
+import assets from "./data/assets.json";
+import { AssetBase, AssetListItem } from "@/types/assets";
 
 const timer = (ms: number) => {
   return new Promise((res) => setTimeout(res, ms));
@@ -13,6 +15,20 @@ const waitRandom = async (min = 500) => {
 export const getCollections = async (): Promise<Collection[]> => {
   await waitRandom();
   return collections;
+};
+
+export const getAssets = async (): Promise<AssetListItem[]> => {
+  await waitRandom();
+  return assets;
+};
+
+export const createAsset = async (asset: AssetBase): Promise<AssetBase> => {
+  await waitRandom();
+  return asset;
+};
+
+export const deleteAsset = async (): Promise<void> => {
+  await waitRandom();
 };
 
 export const createConversation = async (

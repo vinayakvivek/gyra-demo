@@ -106,6 +106,7 @@ const ChatBox = forwardRef<
         </ScrollArea>
         <form className="flex flex-row space-x-3 w-full" onSubmit={sendQuery}>
           <Input
+            className="focus-visible:ring-0"
             type="text"
             placeholder="Type in your query"
             value={query}

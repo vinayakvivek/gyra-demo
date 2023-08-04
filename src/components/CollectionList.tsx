@@ -1,13 +1,13 @@
-import { Card, CardHeader } from "./ui/card";
 import { ScrollArea } from "./ui/scroll-area";
 import { forwardRef } from "react";
 import { cn } from "../lib/utils";
-import { useMutation, useQuery } from "react-query";
+import { useMutation } from "react-query";
 import * as api from "../api";
 import { Collection } from "@/types";
 import LoadingCircle from "./common/LoadingCircle";
 import { useChatStore } from "../stores/chat-store";
 import H2 from "./common/H2";
+import { useQueryCollections } from "../hooks/query";
 
 const ListItem = (item: Collection) => {
   const { setCollection, setConversation, collection } = useChatStore();
@@ -29,17 +29,18 @@ const ListItem = (item: Collection) => {
   };
 
   return (
-    <Card
-      className={cn("hover:bg-accent hover:cursor-pointer", {
-        "border-foreground": item.collection_name === collection,
-      })}
+    <div
+      className={cn(
+        "hover:bg-accent hover:cursor-pointer flex flex-row justify-between items-center border rounded-lg px-3 py-2",
+        {
+          "border-foreground": item.collection_name === collection,
+        }
+      )}
       onClick={handleClick}
     >
-      <CardHeader className="flex flex-row justify-between">
-        <span className="text-xl font-bold">{item.collection_name}</span>
-        {createConvoQuery.isLoading && <LoadingCircle />}
-      </CardHeader>
-    </Card>
+      <span className="text-lg">{item.collection_name}</span>
+      {createConvoQuery.isLoading && <LoadingCircle />}
+    </div>
   );
 };
 
@@ -47,16 +48,13 @@ const CollectionList = forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => {
-  const { isLoading, error, data } = useQuery(
-    "collections",
-    api.getCollections
-  );
+  const { isLoading, error, data } = useQueryCollections();
 
   return (
     <div ref={ref} className={cn("h-full flex flex-col", className)} {...props}>
       <H2>Collections</H2>
       <div className="h-3" />
-      {isLoading && <p>Loading...</p>}
+      {isLoading && <LoadingCircle />}
       {!!error && <p>Error fetching collections: {`${error}`}</p>}
       {data && (
         <ScrollArea type="scroll" className="flex-1 overflow-hidden">
