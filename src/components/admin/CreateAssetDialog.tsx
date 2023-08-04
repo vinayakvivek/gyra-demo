@@ -45,7 +45,7 @@ const CreateAssetDialog = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Add Asset</Button>
+        <Button>Add Asset</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

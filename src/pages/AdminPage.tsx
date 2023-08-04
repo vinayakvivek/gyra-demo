@@ -11,7 +11,7 @@ import DeleteAssetDialog from "../components/admin/DeleteAssetDialog";
 
 const AssetItem = ({ asset }: { asset: AssetListItem }) => {
   return (
-    <div className="flex flex-row px-4 py-2 border items-center rounded-lg justify-between">
+    <div className="flex flex-row px-4 py-2 border-b items-center justify-between last:border-none">
       <div className="flex flex-row space-x-6 items-center">
         <p className="px-2 py-1 border rounded-full w-20 text-center">
           {asset.input_format.toUpperCase()}
@@ -48,8 +48,13 @@ const AssetList = () => {
       {isLoading ? (
         <LoadingCircle />
       ) : (
-        data &&
-        data.map((item) => <AssetItem key={item.asset_id} asset={item} />)
+        data && (
+          <div className="flex flex-col border rounded-lg">
+            {data.map((item) => (
+              <AssetItem key={item.asset_id} asset={item} />
+            ))}
+          </div>
+        )
       )}
     </div>
   ) : (
