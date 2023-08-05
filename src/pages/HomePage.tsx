@@ -7,6 +7,7 @@ import { useMutation } from "react-query";
 import * as api from "../api";
 import { useCallback } from "react";
 import LoadingCircle from "../components/common/LoadingCircle";
+import { v4 as uuidv4 } from "uuid";
 
 const HomePage = () => {
   const { conversationId, setConversation, setCollection } = useChatStore();
@@ -19,7 +20,7 @@ const HomePage = () => {
       mutate(
         {
           collection_name: collection,
-          conversation_name: "test",
+          conversation_name: `convo_${uuidv4()}`,
         },
         {
           onSuccess: (conversation) => {

@@ -48,13 +48,16 @@ const AssetList = () => {
       {isLoading ? (
         <LoadingCircle />
       ) : (
-        data && (
+        data &&
+        (data.length > 0 ? (
           <div className="flex flex-col border rounded-lg">
             {data.map((item) => (
               <AssetItem key={item.asset_id} asset={item} />
             ))}
           </div>
-        )
+        ) : (
+          <p className="italic text-sm mt-5">No assets found.</p>
+        ))
       )}
     </div>
   ) : (

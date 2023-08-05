@@ -27,6 +27,7 @@ export interface Conversation {
 
 export interface ChatRequest {
   query: string;
+  experimental_fields: object;
 }
 
 export interface ChatResponse {

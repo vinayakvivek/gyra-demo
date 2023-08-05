@@ -22,9 +22,9 @@ export const getAssets = async (): Promise<AssetListItem[]> => {
   return assets;
 };
 
-export const createAsset = async (asset: AssetBase): Promise<AssetBase> => {
+export const createAsset = async (asset: AssetBase): Promise<AssetBase[]> => {
   await waitRandom();
-  return asset;
+  return [asset];
 };
 
 export const deleteAsset = async (): Promise<void> => {

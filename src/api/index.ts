@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_ENDPOINT, MOCKING_ENABLED } from "../config";
+import { API_ENDPOINT, API_TENANT_ID, MOCKING_ENABLED } from "../config";
 import * as mockResponses from "../mocks/responses";
 import {
   ChatRequest,
@@ -13,7 +13,7 @@ import { AssetBase, AssetListItem } from "@/types/assets";
 const createUrl = (path: string) => `${API_ENDPOINT}/${path}`;
 
 const commonHeaders = {
-  "x-tenant-id": 102,
+  "x-tenant-id": API_TENANT_ID,
 };
 
 const execute = async <T>(method: string, path: string): Promise<T> => {
@@ -53,11 +53,13 @@ export const getAssets = (collection: string): Promise<AssetListItem[]> => {
 export const createAsset = (
   collection: string,
   asset: AssetBase
-): Promise<AssetBase> => {
+): Promise<AssetBase[]> => {
   if (MOCKING_ENABLED) {
     return mockResponses.createAsset(asset);
   }
-  return post<AssetBase, AssetBase>(`/collection/${collection}/asset`, asset);
+  return post<AssetBase[], AssetBase[]>(`/collection/${collection}/asset`, [
+    asset,
+  ]);
 };
 
 export const deleteAsset = (
@@ -88,6 +90,6 @@ export const chat = async (
   }
   return post<ChatRequest, ChatResponse>(
     `/conversation/${conversationId}/query`,
-    { query }
+    { query, experimental_fields: {} }
   );
 };

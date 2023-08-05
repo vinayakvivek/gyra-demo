@@ -8,6 +8,7 @@ import LoadingCircle from "./common/LoadingCircle";
 import { useChatStore } from "../stores/chat-store";
 import H2 from "./common/H2";
 import { useQueryCollections } from "../hooks/query";
+import { v4 as uuidv4 } from "uuid";
 
 const ListItem = (item: Collection) => {
   const { setCollection, setConversation, collection } = useChatStore();
@@ -17,7 +18,7 @@ const ListItem = (item: Collection) => {
     createConvoQuery.mutate(
       {
         collection_name: item.collection_name,
-        conversation_name: "test",
+        conversation_name: "convo_" + uuidv4(),
       },
       {
         onSuccess: (conversation) => {
